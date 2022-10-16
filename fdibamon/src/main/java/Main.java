@@ -1,3 +1,5 @@
+package main.java;
+
 import entity.Fdibamon;
 
 import java.io.BufferedReader;
@@ -18,20 +20,37 @@ public class Main {
         fdibamons.add(new Fdibamon("Gandalf", 50, 40));
         fdibamons.add(new Fdibamon("Mordekeiser", 70, 70));
 
+        Fdibamon firstFdibamon = null;
+        Fdibamon secondFdibamon = null;
+
         printHelloMessage();
         int counter = 1;
-        int userInput;
-        //TODO: fix the do while loop
-        do {
-            for (Fdibamon fdibamon : fdibamons) {
-                System.out.printf("%d. %-15s | Hit Points: %5d | Attack Power: %5d%n",
-                        counter++,
-                        fdibamon.getName(),
-                        fdibamon.getHitPoints(),
-                        fdibamon.getAttackPower());
+        int userInput = 0;
+        int flag = 0;
+        while(flag < 2) {
+            do {
+                for (Fdibamon fdibamon : fdibamons) {
+                    System.out.printf("%d. %-15s | Hit Points: %5d | Attack Power: %5d%n",
+                            counter++,
+                            fdibamon.getName(),
+                            fdibamon.getHitPoints(),
+                            fdibamon.getAttackPower());
+                }
+                userInput = Integer.parseInt(bf.readLine());
+                counter = 1;
+            } while (userInput <= 0 || userInput > 5);
+            flag++;
+            if(flag == 1){
+                firstFdibamon = fdibamons.get(userInput-1);
+                fdibamons.remove(userInput-1);
             }
-            userInput = Integer.parseInt(bf.readLine());
-        } while (userInput <= 0 && userInput >= 5);
+        }
+        secondFdibamon = fdibamons.get(userInput-1);
+        Arena arena = new Arena(firstFdibamon,secondFdibamon);
+        System.out.printf("You choose: %s and %s", arena.getFirstFdibamon().getName(), arena.getSecondFdibamon().getName());
+
+
+
 
 
 
