@@ -23,31 +23,30 @@ public class Main {
             try {
                 input = Integer.parseInt(bufferedReader.readLine());
                 if (input <= 0 || input > upperBound) {
-                    throw new InvalidFdibamonInput("");
+                    throw new IllegalArgumentException();
                 }
-            } catch (NumberFormatException ex) {
+            } catch (IllegalArgumentException ex) {
                 System.out.printf("%nInvalid input, try again.%n%n");
                 continue;
-            } catch (InvalidFdibamonInput ex) {
-                System.out.printf("%nInvalid Fdibamon selected, try again.%n%n");
+            }
+            if (selectedFdibamons == 0) {
+                firstFdibamon = getFdibamon(fdibamons, input);
+                ++selectedFdibamons;
                 continue;
             }
-
-            if (selectedFdibamons == 0) {
-                firstFdibamon = fdibamons.get(input - 1);
-                System.out.printf("%n%s selected!%n%n", firstFdibamon.getName());
-                fdibamons.remove(input - 1);
-            } else {
-                secondFdibamon = fdibamons.get(input - 1);
-                System.out.printf("%n%s selected!%n%n", secondFdibamon.getName());
-                fdibamons.remove(input - 1);
-            }
+            secondFdibamon = getFdibamon(fdibamons, input);
             ++selectedFdibamons;
         }
-
         System.out.printf("Creating arena...:%nFighter N1: %s%nFighter N2: %s",
                 firstFdibamon.getName(),
                 secondFdibamon.getName());
+    }
+
+    private static Fdibamon getFdibamon(List<Fdibamon> fdibamons, int input) {
+        Fdibamon fdibamon = fdibamons.get(input - 1);
+        System.out.printf("%n%s selected!%n%n", fdibamon.getName());
+        fdibamons.remove(input - 1);
+        return fdibamon;
     }
 
     private static void printCurrentFdibamonList(List<Fdibamon> fdibamons) {
