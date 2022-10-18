@@ -29,6 +29,7 @@ public class Main {
                 System.out.printf("%nInvalid input, try again.%n%n");
                 continue;
             }
+
             if (selectedFdibamons == 0) {
                 firstFdibamon = getFdibamon(fdibamons, input);
                 ++selectedFdibamons;
@@ -37,6 +38,7 @@ public class Main {
             secondFdibamon = getFdibamon(fdibamons, input);
             ++selectedFdibamons;
         }
+
         System.out.printf("Creating arena...:%nFighter N1: %s%nFighter N2: %s",
                 firstFdibamon.getName(),
                 secondFdibamon.getName());
