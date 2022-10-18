@@ -1,4 +1,3 @@
-import entity.Fdibamon;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -7,7 +6,68 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) throws IOException {
-        Engine engine = new Engine();
-        engine.run();
+        BufferedReader bufferedReader =
+                new BufferedReader(new InputStreamReader(System.in));
+
+        Fdibamon firstFdibamon = null;
+        Fdibamon secondFdibamon = null;
+        List<Fdibamon> fdibamons = createFdibamonList();
+
+        int input;
+        int selectedFdibamons = 0;
+        int upperBound = fdibamons.size();
+
+        while (selectedFdibamons < 2) {
+            printCurrentFdibamonList(fdibamons);
+            System.out.printf("%nEnter your Fdibamon #%d: ", selectedFdibamons + 1);
+            try {
+                input = Integer.parseInt(bufferedReader.readLine());
+                if (input <= 0 || input > upperBound) {
+                    throw new InvalidFdibamonInput("");
+                }
+            } catch (NumberFormatException ex) {
+                System.out.printf("%nInvalid input, try again.%n%n");
+                continue;
+            } catch (InvalidFdibamonInput ex) {
+                System.out.printf("%nInvalid Fdibamon selected, try again.%n%n");
+                continue;
+            }
+
+            if (selectedFdibamons == 0) {
+                firstFdibamon = fdibamons.get(input - 1);
+                System.out.printf("%n%s selected!%n%n", firstFdibamon.getName());
+                fdibamons.remove(input - 1);
+            } else {
+                secondFdibamon = fdibamons.get(input - 1);
+                System.out.printf("%n%s selected!%n%n", secondFdibamon.getName());
+                fdibamons.remove(input - 1);
+            }
+            ++selectedFdibamons;
+        }
+
+        System.out.printf("Creating arena...:%nFighter N1: %s%nFighter N2: %s",
+                firstFdibamon.getName(),
+                secondFdibamon.getName());
+    }
+
+    private static void printCurrentFdibamonList(List<Fdibamon> fdibamons) {
+        int counter = 1;
+        for (Fdibamon fdibamon : fdibamons) {
+            System.out.printf("ID: %d. | Name: %15s | HP: %7d | Attack Points: %7d%n",
+                    counter++,
+                    fdibamon.getName(),
+                    fdibamon.getHitPoints(),
+                    fdibamon.getAttackPower());
+        }
+    }
+
+    private static List<Fdibamon> createFdibamonList() {
+        List<Fdibamon> fdibamons = new ArrayList<>();
+        fdibamons.add(new Fdibamon("Torud", 50, 20));
+        fdibamons.add(new Fdibamon("Morzith", 40, 50));
+        fdibamons.add(new Fdibamon("Unoth", 60, 30));
+        fdibamons.add(new Fdibamon("Gandalf", 50, 40));
+        fdibamons.add(new Fdibamon("Mordekeiser", 70, 70));
+        return fdibamons;
     }
 }

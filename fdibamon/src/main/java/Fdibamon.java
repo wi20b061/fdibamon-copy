@@ -1,5 +1,3 @@
-package entity;
-
 import java.security.InvalidParameterException;
 
 public class Fdibamon {
