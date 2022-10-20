@@ -39,7 +39,7 @@ public class Fdibamon {
     }
 
     private void validateName(String name) {
-        if(name.trim().isEmpty()) {
+        if(name == null || name.trim().isEmpty()) {
             throw new InvalidParameterException();
         }
     }
